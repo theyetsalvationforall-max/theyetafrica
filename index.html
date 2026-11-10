@@ -30,6 +30,14 @@
 .contact{display:grid;grid-template-columns:1fr 1fr;gap:20px}.contact article{background:#fff;padding:27px;border:1px solid #e2e8f1}.contact a{color:var(--green);font-weight:bold}
 .footer{background:#091a3a;color:#e1e9f8;padding:42px 0 20px}.footgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:30px}.footer h3{font:700 20px Georgia;color:var(--lime)}.footer a{display:block;color:#e1e9f8;text-decoration:none;margin:7px 0}.copy{border-top:1px solid #ffffff25;margin-top:28px;padding-top:17px;color:#b8c5dc;font-size:13px}
 @media(max-width:760px){.menu{display:block}.links{display:none;position:absolute;top:82px;left:0;right:0;background:#fff;padding:20px;flex-direction:column}.links.open{display:flex}.two,.three,.values,.contact,.footgrid{grid-template-columns:1fr}.hero{padding:75px 0}.top .wrap{justify-content:center;text-align:center}}
+
+/* WhatsApp contact button */
+.whatsapp-float{position:fixed;right:22px;bottom:22px;z-index:999;display:inline-flex;align-items:center;gap:10px;padding:14px 20px;border-radius:999px;background:#168b49;color:#fff;text-decoration:none;font-weight:800;box-shadow:0 8px 26px #071a3a45;transition:transform .2s,background .2s}
+.whatsapp-float:hover{background:#11783e;transform:translateY(-2px)}
+.whatsapp-float svg{width:22px;height:22px;fill:currentColor;flex:none}
+.whatsapp-contact{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:11px 17px;border-radius:4px;background:#168b49;color:#fff!important;text-decoration:none;font-weight:800}
+.whatsapp-contact:hover{background:#11783e}
+@media(max-width:520px){.whatsapp-float{right:14px;bottom:14px;padding:13px 16px;font-size:14px}}
 </style>
 </head>
 <body>
@@ -60,9 +68,10 @@
 <section class="cta"><div class="wrap"><div class="kicker">Together in Christ</div><h2>Every community deserves to hear a message of hope.</h2><p>Join us in sharing the Gospel of Jesus Christ and encouraging a new generation of faithful servants across Africa.</p><a class="btn primary" href="mailto:theyetsalvationforall@gmail.com?subject=Connecting%20with%20The%20Yet%20Africa%20Salvation%20For%20All">Contact the ministry</a></div></section>
 <section class="section" id="contact"><div class="wrap"><div class="kicker">Get in touch</div><h2>We would love to hear from you</h2><p class="lead">For ministry enquiries, church connections, outreach partnerships, or to learn more about our work, contact us.</p><div class="contact">
 <article><h3>Ministry email</h3><a href="mailto:theyetsalvationforall@gmail.com">theyetsalvationforall@gmail.com</a><p class="muted">Send us a message and tell us how you would like to connect.</p></article>
-<article><h3>Our commitment</h3><p>To share the Gospel of Jesus Christ, empower churches, and raise young evangelists to reach communities across Africa.</p></article>
+<article><h3>Our commitment</h3><p>To share the Gospel of Jesus Christ, empower churches, and raise young evangelists to reach communities across Africa.</p><p><strong>For more information:</strong><br><a href="https://wa.me/256787459886?text=Hello%20The%20Yet%20Africa%20Salvation%20For%20All%2C%20I%20would%20like%20more%20information." target="_blank" rel="noopener noreferrer">+256 787 459886</a></p><a class="whatsapp-contact" href="https://wa.me/256787459886?text=Hello%20The%20Yet%20Africa%20Salvation%20For%20All%2C%20I%20would%20like%20more%20information." target="_blank" rel="noopener noreferrer">Chat with us on WhatsApp</a></article>
 </div></div></section>
 </main>
 <footer class="footer"><div class="wrap"><div class="footgrid"><div><h3>THE YET AFRICA SALVATION FOR ALL</h3><p>Sharing the Gospel of Jesus Christ, empowering churches, and raising young evangelists across Africa.</p></div><div><h3>Explore</h3><a href="#about">About us</a><a href="#mission">Mission & vision</a><a href="#work">Our work</a></div><div><h3>Connect</h3><a href="mailto:theyetsalvationforall@gmail.com">Email the ministry</a><a href="#involved">Get involved</a></div></div><div class="copy">© <span id="year"></span> The Yet Africa Salvation For All. All rights reserved.</div></div></footer>
 <script>document.getElementById('year').textContent=new Date().getFullYear();document.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>document.querySelector('.links').classList.remove('open')));</script>
+<a class="whatsapp-float" href="https://wa.me/256787459886?text=Hello%20The%20Yet%20Africa%20Salvation%20For%20All%2C%20I%20would%20like%20more%20information." target="_blank" rel="noopener noreferrer" aria-label="Chat with The Yet Africa on WhatsApp"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 .0C7.2 0 .1 7.1.1 15.9c0 2.8.7 5.5 2.1 7.9L0 32l8.4-2.2a15.8 15.8 0 0 0 7.6 1.9h.1c8.8 0 15.9-7.1 15.9-15.9A15.9 15.9 0 0 0 16 0zm0 28.9h-.1a13 13 0 0 1-6.6-1.8l-.5-.3-5 1.3 1.3-4.9-.3-.5a13 13 0 1 1 11.2 6.2zm7.1-9.7c-.4-.2-2.3-1.1-2.7-1.2-.4-.1-.6-.2-.9.2-.3.4-1 1.2-1.2 1.4-.2.3-.5.3-.9.1-.4-.2-1.7-.6-3.2-2-1.2-1.1-2-2.4-2.2-2.8-.2-.4 0-.6.2-.8l.6-.7c.2-.2.3-.4.4-.7.1-.3 0-.5 0-.7-.1-.2-.9-2.1-1.2-2.8-.3-.7-.6-.6-.9-.6h-.8c-.3 0-.7.1-1.1.5-.4.4-1.4 1.3-1.4 3.2s1.4 3.7 1.6 4c.2.3 2.8 4.3 6.8 6 .9.4 1.6.6 2.1.7.9.3 1.7.2 2.3.1.7-.1 2.3-.9 2.6-1.8.3-.9.3-1.6.2-1.8-.1-.1-.4-.2-.8-.4z"/></svg>For more information</a>
 </body></html>
