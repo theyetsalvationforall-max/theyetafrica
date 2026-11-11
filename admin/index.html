@@ -54,48 +54,82 @@ a{color:var(--forest)}#dashboard{display:none}.back{display:block;text-align:cen
 <script>
 const SUPABASE_URL='https://rjnuaugyhjbvcptagsmx.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_XNZ3MitHI4maZrq09zUc5g_Z_kWQUB4';
+const ADMIN_EMAIL='theyetsalvationforall@gmail.com';
+const REDIRECT_URL='https://theyetsalvationforall-max.github.io/theyetafrica/admin/';
 const supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
-const authorisedEmail='theyetsalvationforall@gmail.com';
 const form=document.getElementById('authForm'),statusBox=document.getElementById('status');
 function show(message,type='ok'){statusBox.textContent=message;statusBox.className='status show '+(type==='error'?'error':'ok')}
 function busy(on){document.querySelectorAll('button').forEach(b=>b.disabled=on)}
+function explain(error){
+ const m=(error?.message||String(error)||'Unknown error').toLowerCase();
+ if(m.includes('email_address_not_authorized')||m.includes('not authorized')||m.includes('smtp')||m.includes('sending email'))
+  return 'Supabase has blocked sending the confirmation email. Its built-in email service only sends to project team members. The project owner must add a verified SMTP email service or add this address as a project team member.';
+ if(m.includes('redirect')||m.includes('url'))
+  return 'The confirmation link address is not approved yet. In Supabase Dashboard, open Authentication → URL Configuration and add this exact Redirect URL: '+REDIRECT_URL;
+ if(m.includes('rate limit')||m.includes('too many'))
+  return 'Too many attempts. Please wait 60 seconds before trying again.';
+ if(m.includes('already registered')||m.includes('already been registered'))
+  return 'This email already has an account. Use Sign in, or choose Forgot password to set a new password.';
+ if(m.includes('invalid login credentials'))
+  return 'The email or password is incorrect. If you have not created an account yet, use Create my administrator password first.';
+ return error?.message||'The request could not be completed. Please try again.';
+}
 async function verifyAdmin(){
- const {data:{user}}=await supabase.auth.getUser();
+ const {data:{user},error:userError}=await supabase.auth.getUser();
+ if(userError)throw userError;
  if(!user)return false;
- const {data,error}=await supabase.from('admin_users').select('email').eq('email',authorisedEmail).maybeSingle();
- if(error||!data||user.email?.toLowerCase()!==authorisedEmail){await supabase.auth.signOut();return false}
+ const {data,error}=await supabase.from('admin_users').select('email').eq('email',ADMIN_EMAIL).maybeSingle();
+ if(error)throw error;
+ if(!data||user.email?.toLowerCase()!==ADMIN_EMAIL){await supabase.auth.signOut();return false}
  document.getElementById('login').style.display='none';
  document.getElementById('dashboard').style.display='block';
  return true;
 }
 form.addEventListener('submit',async e=>{
  e.preventDefault();busy(true);
- const email=document.getElementById('email').value.trim().toLowerCase();
- const password=document.getElementById('password').value;
- if(email!==authorisedEmail){show('This email is not authorised for the administrator account.','error');busy(false);return}
- const {error}=await supabase.auth.signInWithPassword({email,password});
- if(error){show(error.message,'error')}else if(!(await verifyAdmin())){show('This account is not authorised as the ministry administrator.','error')}
- busy(false);
+ try{
+  const email=document.getElementById('email').value.trim().toLowerCase(),password=document.getElementById('password').value;
+  if(email!==ADMIN_EMAIL)throw new Error('Use the authorised ministry administrator email.');
+  const {error}=await supabase.auth.signInWithPassword({email,password});
+  if(error)throw error;
+  if(!(await verifyAdmin()))throw new Error('This account is not authorised as the ministry administrator.');
+ }catch(error){show(explain(error),'error')}
+ finally{busy(false)}
 });
 document.getElementById('signupBtn').addEventListener('click',async()=>{
- const email=document.getElementById('email').value.trim().toLowerCase(),password=document.getElementById('password').value;
- if(email!==authorisedEmail){show('Use the authorised ministry administrator email.','error');return}
- if(password.length<8){show('Choose a password with at least 8 characters.','error');return}
  busy(true);
- const {data,error}=await supabase.auth.signUp({email,password,options:{emailRedirectTo:location.href}});
- if(error)show(error.message,'error');
- else if(data.session){if(!(await verifyAdmin()))show('The account is not authorised.','error')}
- else show('Account request created. Check the ministry email inbox and confirm the email address, then return here to sign in.');
- busy(false);
+ try{
+  const email=document.getElementById('email').value.trim().toLowerCase(),password=document.getElementById('password').value;
+  if(email!==ADMIN_EMAIL)throw new Error('Use the authorised ministry administrator email.');
+  if(password.length<8)throw new Error('Choose a password with at least 8 characters.');
+  const {data,error}=await supabase.auth.signUp({email,password,options:{emailRedirectTo:REDIRECT_URL}});
+  if(error)throw error;
+  if(data.session){if(!(await verifyAdmin()))throw new Error('This account is not authorised.')}
+  else if(data.user && data.user.identities && data.user.identities.length===0)
+   show('An account may already exist for this email. Try Sign in or Forgot password.');
+  else
+   show('The account request was accepted. Check the email inbox and Spam folder for a confirmation link. The link must return to this website before you can sign in.');
+ }catch(error){show(explain(error),'error')}
+ finally{busy(false)}
 });
 document.getElementById('resetBtn').addEventListener('click',async()=>{
- const email=document.getElementById('email').value.trim().toLowerCase();
- if(email!==authorisedEmail){show('Use the authorised ministry administrator email.','error');return}
- busy(true);const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:location.href});
- show(error?error.message:'If an account exists, a password reset link has been sent to the ministry email inbox.',error?'error':'ok');busy(false);
+ busy(true);
+ try{
+  const email=document.getElementById('email').value.trim().toLowerCase();
+  if(email!==ADMIN_EMAIL)throw new Error('Use the authorised ministry administrator email.');
+  const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:REDIRECT_URL});
+  if(error)throw error;
+  show('If an account exists, a password reset email has been requested. Check Inbox and Spam.');
+ }catch(error){show(explain(error),'error')}
+ finally{busy(false)}
 });
-document.getElementById('logoutBtn').addEventListener('click',async()=>{await supabase.auth.signOut();document.getElementById('dashboard').style.display='none';document.getElementById('login').style.display='block';show('You have signed out.')});
-verifyAdmin().then(ok=>{if(!ok)document.getElementById('login').style.display='block'});
+document.getElementById('logoutBtn').addEventListener('click',async()=>{
+ await supabase.auth.signOut();
+ document.getElementById('dashboard').style.display='none';
+ document.getElementById('login').style.display='block';
+ show('You have signed out.');
+});
+verifyAdmin().then(ok=>{if(!ok)document.getElementById('login').style.display='block'}).catch(error=>show(explain(error),'error'));
 </script>
 </body>
 </html>
