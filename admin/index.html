@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Administrator Login | The Yet Africa Salvation For All</title>
+<style>
+:root{--forest:#173f32;--gold:#c69a43;--ink:#24332c;--muted:#65736b;--paper:#f5f6f2}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(135deg,#edf2ec,#f8f6ef);font-family:Arial,sans-serif;color:var(--ink);display:grid;place-items:center;padding:22px}
+.panel{width:min(100%,440px);background:#fff;border-radius:18px;padding:32px;box-shadow:0 18px 55px #183d2d18;border:1px solid #e6ebe5}
+.brand{color:var(--forest);font:700 13px/1.5 Georgia,serif;letter-spacing:1.2px;text-align:center}
+.mark{width:58px;height:58px;border-radius:50%;margin:0 auto 16px;background:var(--forest);color:#fff;display:grid;place-items:center;font:28px Georgia,serif}
+h1{text-align:center;font:700 29px Georgia,serif;color:var(--forest);margin:10px 0}
+.sub{text-align:center;color:var(--muted);line-height:1.55;font-size:14px;margin:0 0 24px}
+label{display:block;font-size:13px;font-weight:700;margin:15px 0 7px}
+input{width:100%;padding:13px 14px;border:1px solid #d7dfd8;border-radius:9px;font-size:16px;outline-color:var(--gold)}
+button{width:100%;border:0;border-radius:9px;padding:14px;margin-top:15px;background:var(--forest);color:#fff;font-weight:700;font-size:15px;cursor:pointer}
+button.secondary{background:#eef2ed;color:var(--forest);margin-top:9px}
+button:disabled{opacity:.6;cursor:wait}
+.status{font-size:14px;line-height:1.5;margin-top:15px;padding:11px;border-radius:8px;display:none}
+.status.show{display:block}.status.error{background:#fff0ef;color:#9b2921}.status.ok{background:#edf7ef;color:#235b35}
+.small{text-align:center;color:var(--muted);font-size:12px;line-height:1.5;margin-top:20px}
+a{color:var(--forest)}#dashboard{display:none}.back{display:block;text-align:center;margin-top:18px;font-size:13px}
+</style>
+</head>
+<body>
+<main class="panel">
+ <div class="mark">✝</div>
+ <div class="brand">THE YET AFRICA SALVATION FOR ALL</div>
+ <section id="login">
+  <h1>Administrator Login</h1>
+  <p class="sub">Sign in to the ministry's private administration portal.</p>
+  <form id="authForm">
+   <label for="email">Administrator email</label>
+   <input id="email" type="email" value="theyetsalvationforall@gmail.com" autocomplete="username" required>
+   <label for="password">Password</label>
+   <input id="password" type="password" autocomplete="current-password" minlength="8" required placeholder="Enter your password">
+   <button id="loginBtn" type="submit">Sign in</button>
+   <button id="signupBtn" class="secondary" type="button">Create my administrator password</button>
+   <button id="resetBtn" class="secondary" type="button">Forgot password?</button>
+  </form>
+  <div id="status" class="status" role="status"></div>
+ </section>
+ <section id="dashboard">
+  <h1>Welcome, Administrator</h1>
+  <p class="sub">Your administrator identity has been verified.</p>
+  <div class="status show ok">You are signed in to the private administrator portal.</div>
+  <p style="line-height:1.6;font-size:14px">The secure sign-in is connected. The editing tools for ministry updates, events, gallery, testimonies and resources will be added to this portal as the next step.</p>
+  <button id="logoutBtn" type="button">Sign out</button>
+ </section>
+ <p class="small">This area is restricted to the authorised ministry administrator.<br><a href="../">Return to the ministry website</a></p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://rjnuaugyhjbvcptagsmx.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_XNZ3MitHI4maZrq09zUc5g_Z_kWQUB4';
+const supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const authorisedEmail='theyetsalvationforall@gmail.com';
+const form=document.getElementById('authForm'),statusBox=document.getElementById('status');
+function show(message,type='ok'){statusBox.textContent=message;statusBox.className='status show '+(type==='error'?'error':'ok')}
+function busy(on){document.querySelectorAll('button').forEach(b=>b.disabled=on)}
+async function verifyAdmin(){
+ const {data:{user}}=await supabase.auth.getUser();
+ if(!user)return false;
+ const {data,error}=await supabase.from('admin_users').select('email').eq('email',authorisedEmail).maybeSingle();
+ if(error||!data||user.email?.toLowerCase()!==authorisedEmail){await supabase.auth.signOut();return false}
+ document.getElementById('login').style.display='none';
+ document.getElementById('dashboard').style.display='block';
+ return true;
+}
+form.addEventListener('submit',async e=>{
+ e.preventDefault();busy(true);
+ const email=document.getElementById('email').value.trim().toLowerCase();
+ const password=document.getElementById('password').value;
+ if(email!==authorisedEmail){show('This email is not authorised for the administrator account.','error');busy(false);return}
+ const {error}=await supabase.auth.signInWithPassword({email,password});
+ if(error){show(error.message,'error')}else if(!(await verifyAdmin())){show('This account is not authorised as the ministry administrator.','error')}
+ busy(false);
+});
+document.getElementById('signupBtn').addEventListener('click',async()=>{
+ const email=document.getElementById('email').value.trim().toLowerCase(),password=document.getElementById('password').value;
+ if(email!==authorisedEmail){show('Use the authorised ministry administrator email.','error');return}
+ if(password.length<8){show('Choose a password with at least 8 characters.','error');return}
+ busy(true);
+ const {data,error}=await supabase.auth.signUp({email,password,options:{emailRedirectTo:location.href}});
+ if(error)show(error.message,'error');
+ else if(data.session){if(!(await verifyAdmin()))show('The account is not authorised.','error')}
+ else show('Account request created. Check the ministry email inbox and confirm the email address, then return here to sign in.');
+ busy(false);
+});
+document.getElementById('resetBtn').addEventListener('click',async()=>{
+ const email=document.getElementById('email').value.trim().toLowerCase();
+ if(email!==authorisedEmail){show('Use the authorised ministry administrator email.','error');return}
+ busy(true);const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:location.href});
+ show(error?error.message:'If an account exists, a password reset link has been sent to the ministry email inbox.',error?'error':'ok');busy(false);
+});
+document.getElementById('logoutBtn').addEventListener('click',async()=>{await supabase.auth.signOut();document.getElementById('dashboard').style.display='none';document.getElementById('login').style.display='block';show('You have signed out.')});
+verifyAdmin().then(ok=>{if(!ok)document.getElementById('login').style.display='block'});
+</script>
+</body>
+</html>
