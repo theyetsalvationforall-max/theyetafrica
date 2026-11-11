@@ -1,0 +1,114 @@
+media:
+  - name: images
+    label: Photos and graphics
+    input: uploads/images
+    output: /theyetafrica/uploads/images
+    rename: safe
+    categories: [image]
+  - name: documents
+    label: Documents
+    input: uploads/documents
+    output: /theyetafrica/uploads/documents
+    rename: safe
+    categories: [document]
+  - name: videos
+    label: Video files
+    input: uploads/videos
+    output: /theyetafrica/uploads/videos
+    rename: safe
+    categories: [video]
+content:
+  - name: updates
+    label: News and updates
+    type: file
+    path: content/updates.json
+    format: json
+    list: true
+    fields:
+      - name: title
+        label: Headline
+        type: string
+        required: true
+      - name: date
+        label: Publication date
+        type: date
+      - name: summary
+        label: Short story or announcement
+        type: text
+      - name: image
+        label: Cover photo
+        type: image
+      - name: published
+        label: Show on website
+        type: boolean
+  - name: events
+    label: Events
+    type: file
+    path: content/events.json
+    format: json
+    list: true
+    fields:
+      - name: title
+        label: Event name
+        type: string
+        required: true
+      - name: date
+        label: Event date
+        type: date
+      - name: location
+        label: Location
+        type: string
+      - name: details
+        label: Event details
+        type: text
+      - name: image
+        label: Event poster or photo
+        type: image
+      - name: published
+        label: Show on website
+        type: boolean
+  - name: gallery
+    label: Photo gallery
+    type: file
+    path: content/gallery.json
+    format: json
+    list: true
+    fields:
+      - name: title
+        label: Photo title
+        type: string
+        required: true
+      - name: image
+        label: Photo
+        type: image
+        required: true
+      - name: caption
+        label: Caption
+        type: text
+      - name: date
+        label: Activity date
+        type: date
+      - name: published
+        label: Show on website
+        type: boolean
+  - name: testimonies
+    label: Testimonies
+    type: file
+    path: content/testimonies.json
+    format: json
+    list: true
+    fields:
+      - name: name
+        label: Name or display name
+        type: string
+      - name: story
+        label: Testimony
+        type: text
+        required: true
+      - name: published
+        label: Show on website
+        type: boolean
+settings:
+  content: true
+  commit:
+    identity: user
