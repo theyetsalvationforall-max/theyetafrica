@@ -124,6 +124,12 @@
 @keyframes intro-orbit{to{transform:rotate(360deg) scale(1.04)}}
 @media(prefers-reduced-motion:reduce){#ministry-intro::before,#ministry-intro::after,.intro-inner,.intro-logo,.intro-kicker,.intro-title,.intro-message,.intro-enter,.intro-skip{animation:none!important}#ministry-intro{transition:none}}
 
+
+/* Reliable intro visibility and tap targets */
+#ministry-intro{display:flex!important;align-items:center!important;justify-content:center!important;min-height:100vh!important;min-height:100dvh!important}
+body.intro-active{overflow:hidden!important}
+#ministry-intro .intro-inner{width:min(90%,700px)!important}
+#ministry-intro button{position:relative;z-index:2;touch-action:manipulation}
 </style>
 </head>
 <body>
@@ -134,8 +140,8 @@
     <p class="intro-kicker">Welcome to</p>
     <h1 class="intro-title">THE YET AFRICA<br><span>SALVATION FOR ALL</span></h1>
     <p class="intro-message">Taking the Gospel of Jesus Christ to the Nations.</p>
-    <button class="intro-enter" type="button" onclick="enterMinistryWebsite()">ENTER WEBSITE</button>
-    <button class="intro-skip" type="button" onclick="enterMinistryWebsite()">Skip intro</button>
+    <button class="intro-enter" id="intro-enter" type="button">ENTER WEBSITE</button>
+    <button class="intro-skip" id="intro-skip" type="button">Skip intro</button>
   </div>
 </div>
 
@@ -282,16 +288,26 @@ loadMinistryCollection('updates','cms-updates','news and updates');loadMinistryC
 
 <script>
 (function(){
-  var intro=document.getElementById('ministry-intro');
-  if(!intro)return;
-  var finished=false;
-  window.enterMinistryWebsite=function(){
-    if(finished)return;
-    finished=true;
-    intro.classList.add('intro-leaving');
-    window.setTimeout(function(){if(intro.parentNode)intro.parentNode.removeChild(intro);},900);
-  };
-  window.setTimeout(window.enterMinistryWebsite,6500);
+  function startMinistryIntro(){
+    var intro=document.getElementById('ministry-intro');
+    if(!intro)return;
+    document.body.classList.add('intro-active');
+    var done=false;
+    function enter(){
+      if(done)return;
+      done=true;
+      intro.classList.add('intro-leaving');
+      document.body.classList.remove('intro-active');
+      window.setTimeout(function(){if(intro.parentNode)intro.parentNode.removeChild(intro);},950);
+    }
+    var enterButton=document.getElementById('intro-enter');
+    var skipButton=document.getElementById('intro-skip');
+    if(enterButton)enterButton.addEventListener('click',enter);
+    if(skipButton)skipButton.addEventListener('click',enter);
+    window.setTimeout(enter,8500);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',startMinistryIntro);
+  else startMinistryIntro();
 })();
 </script>
 
