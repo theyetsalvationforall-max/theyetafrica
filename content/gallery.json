@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "title": "Praise and Dance in Uganda",
+    "date": "Uganda · Kampala",
+    "location": "Worship and fellowship",
+    "image": "https://www.imb.org/wp-content/uploads/2017/11/2007179JBB1207-1200x797.jpg",
+    "summary": "A Ugandan house-church community shares joy through praise and dance. Photo credit: International Mission Board (IMB).",
+    "published": true
+  },
+  {
+    "title": "Sharing the Gospel in Uganda",
+    "date": "Uganda · Naansana",
+    "location": "Evangelism and discipleship",
+    "image": "https://www.imb.org/wp-content/uploads/2017/11/2007179JBB1316.jpg",
+    "summary": "A local church gathering focused on sharing the message of the Gospel. Photo credit: International Mission Board (IMB).",
+    "published": true
+  },
+  {
+    "title": "A Community Gospel Conversation",
+    "date": "Uganda",
+    "location": "Mission and outreach",
+    "image": "https://www.imb.org/wp-content/uploads/2017/11/2007179JBB0448.jpg",
+    "summary": "A moment from a community visit and Gospel conversation in Uganda. Photo credit: International Mission Board (IMB).",
+    "published": true
+  },
+  {
+    "title": "Worship and Praise in South Africa",
+    "date": "South Africa",
+    "location": "African church worship",
+    "image": "https://www.imb.org/wp-content/uploads/2017/04/07142KTK0267-1.jpg",
+    "summary": "Church members gather in joyful worship and song. Photo credit: International Mission Board (IMB).",
+    "published": true
+  }
+]
