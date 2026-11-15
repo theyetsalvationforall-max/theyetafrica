@@ -189,9 +189,66 @@
 @keyframes intro-orbit{to{transform:rotate(360deg) scale(1.04)}}
 @media(prefers-reduced-motion:reduce){#ministry-intro::before,#ministry-intro::after,.intro-inner,.intro-logo,.intro-kicker,.intro-title,.intro-message,.intro-enter,.intro-skip{animation:none!important}#ministry-intro{transition:none}}
 
+
+/* Professional polish: accessible navigation, refined spacing and responsive details */
+:root{--forest:#102a5c;--green:#174b9b;--gold:#e2b93b;--lime:#f4d978;--cream:#f7f9fd;--ink:#1e2b42;--muted:#66738a;--shadow:0 16px 42px rgba(16,42,92,.10)}
+html{scroll-padding-top:100px}
+body{letter-spacing:.005em}
+a{transition:color .2s ease,background-color .2s ease,transform .2s ease,box-shadow .2s ease}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #e2b93b;outline-offset:3px}
+.wrap{width:min(1160px,calc(100% - 44px))}
+.top{letter-spacing:.025em}
+.nav{backdrop-filter:saturate(150%) blur(12px);background:rgba(255,255,255,.97)}
+.navin{min-height:86px}
+.brand{letter-spacing:-.02em}
+.logo-img{border:1px solid #e7ecf4}
+.links a{padding:10px 0;position:relative}
+.links a:after{content:"";position:absolute;left:0;right:100%;bottom:2px;height:2px;background:var(--gold);transition:right .2s ease}
+.links a:hover:after,.links a:focus-visible:after{right:0}
+.hero{padding:clamp(76px,10vw,124px) 0;background-image:linear-gradient(115deg,rgba(16,42,92,.97),rgba(23,75,155,.91)),radial-gradient(circle at 85% 20%,#416db5,transparent 45%)}
+.hero p{line-height:1.8}
+.btn{border-radius:6px;transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.16)}
+.section{padding:clamp(58px,7vw,88px) 0}
+.section h2{letter-spacing:-.025em}
+.card,.value,.contact article,.video-card,.team-card,.faq-card,.get-started-panel,.donate-card{border-radius:10px;box-shadow:var(--shadow)}
+.card,.video-card,.team-card,.faq-card,.contact article{transition:transform .2s ease,box-shadow .2s ease}
+.card:hover,.video-card:hover,.team-card:hover,.faq-card:hover{transform:translateY(-3px);box-shadow:0 20px 46px rgba(16,42,92,.13)}
+.scripture{border-radius:0 10px 10px 0;box-shadow:var(--shadow)}
+.cta{background:linear-gradient(115deg,#174b9b,#102a5c)}
+.footer{background:linear-gradient(145deg,#091a3a,#102a5c)}
+.footer a:hover,.policy-links a:hover{color:var(--lime)}
+.whatsapp-float{box-shadow:0 12px 30px rgba(7,26,58,.28)}
+.whatsapp-float:focus-visible{outline-color:#e2b93b}
+.event-poster-wrap{border-radius:10px}
+.get-started-form input,.get-started-form select,.get-started-form textarea,.site-search input{border-radius:6px}
+.get-started-form button,.site-search button{border-radius:6px}
+.pending-note{border-radius:0 6px 6px 0}
+.cms-card{border-radius:10px;box-shadow:var(--shadow)}
+.cms-card img{object-fit:cover}
+#ministry-intro{padding:24px}
+.intro-inner{max-width:760px}
+.intro-logo{border:1px solid rgba(226,185,59,.5)}
+.intro-enter{min-height:48px}
+@media(max-width:760px){
+  .wrap{width:min(100% - 32px,1160px)}
+  .navin{min-height:74px}
+  .links{top:74px;box-shadow:0 18px 24px rgba(16,42,92,.12)}
+  .hero{padding:70px 0 76px}
+  .hero h1{font-size:clamp(38px,11vw,58px)}
+  .section{padding:58px 0}
+  .top{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+.skip-link{position:absolute;left:12px;top:-60px;z-index:10001;padding:10px 14px;background:#fff;color:#102a5c;border-radius:5px;font-weight:800;box-shadow:var(--shadow)}.skip-link:focus{top:12px}
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 
 <div id="ministry-intro" role="dialog" aria-modal="true" aria-label="Welcome to The Yet Africa Salvation For All">
   <div class="intro-inner">
@@ -213,7 +270,7 @@
 <button class="menu" aria-label="Toggle navigation" aria-expanded="false" onclick="const n=document.querySelector('.links');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'))">☰</button>
 <nav class="links"><a href="#upcoming-event">Upcoming event</a><a href="#about">About</a><a href="#mission">Mission & Vision</a><a href="#work">Our Work</a><a href="#involved">Get Involved</a><a href="#get-started">Get Started</a><a href="#donate">Donate</a><a href="#videos">Videos</a><a href="#leadership">Leadership</a><a href="https://theyetsalvationforall-max.github.io/theyetafrica/impact-centre.html">Impact Centre</a><a href="#updates">News & Events</a><a href="#contact">Contact</a><a class="admin-link" href="https://theyetsalvationforall-max.github.io/theyetafrica/admin/" target="_blank" rel="noopener noreferrer">Admin Login ↗</a></nav>
 </div></header>
-<main>
+<main id="main-content">
 <section class="hero" id="home"><div class="wrap"><div class="eyebrow">A ministry of faith and action</div><h1>Taking the hope of <span>Jesus Christ</span> to every community.</h1><p>The Yet Africa Salvation For All is a Christian evangelism ministry spreading the Gospel, empowering churches, and raising young evangelists to reach communities across Africa.</p><div class="actions"><a class="btn primary" href="#get-started">Get Started</a><a class="btn outline" href="#contact">Connect with us</a></div></div></section>
 
 <section class="section soft" id="impact-centre">
