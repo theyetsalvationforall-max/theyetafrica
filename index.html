@@ -174,9 +174,12 @@
 #ministry-intro::before,#ministry-intro::after{content:"";position:absolute;width:min(78vw,620px);aspect-ratio:1;border:1px solid #e2b93b45;border-radius:50%;animation:intro-orbit 12s linear infinite}
 #ministry-intro::after{width:min(96vw,790px);border-color:#ffffff18;animation-direction:reverse;animation-duration:18s}
 #ministry-intro.intro-leaving{opacity:0;visibility:hidden;pointer-events:none}
-.intro-flags{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-.intro-flag{position:absolute;top:-64px;left:var(--x);font-size:clamp(23px,3.4vw,38px);line-height:1;opacity:0;filter:drop-shadow(0 4px 8px #0005);animation:flag-fall var(--duration) linear var(--delay) infinite}
-@keyframes flag-fall{0%{transform:translate3d(0,-8vh,0) rotate(-14deg);opacity:0}10%{opacity:.78}85%{opacity:.72}100%{transform:translate3d(var(--drift),115vh,0) rotate(18deg);opacity:0}}
+.intro-flags{position:absolute;z-index:2;left:50%;bottom:clamp(14px,3vh,28px);transform:translateX(-50%);width:min(96%,1040px);display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px 12px;pointer-events:none}
+.intro-flag{display:flex;align-items:center;gap:7px;padding:7px 11px;border:1px solid #ffffff35;border-radius:999px;background:#ffffff12;color:#fff;font:700 clamp(10px,1.5vw,13px)/1.1 Arial,sans-serif;white-space:nowrap;opacity:0;box-shadow:0 5px 16px #0002;animation:flag-arrive .65s cubic-bezier(.2,.8,.2,1) var(--delay) both}
+.intro-flag .flag-icon{font-size:clamp(20px,2.5vw,27px);line-height:1}
+@keyframes flag-arrive{from{opacity:0;transform:translateY(28px) scale(.86)}to{opacity:1;transform:translateY(0) scale(1)}}
+.intro-inner{padding-bottom:100px}
+@media(max-width:560px){.intro-flags{gap:6px;bottom:10px}.intro-flag{padding:5px 8px;gap:5px;font-size:10px}.intro-flag .flag-icon{font-size:19px}.intro-inner{padding-bottom:125px}}
 .intro-inner{position:relative;z-index:1;width:min(90%,700px);text-align:center;padding:35px 18px;animation:intro-arrive 1.15s cubic-bezier(.2,.8,.2,1) both}
 .intro-logo{width:clamp(112px,22vw,170px);height:clamp(112px,22vw,170px);object-fit:contain;border-radius:24px;background:#fff;padding:7px;box-shadow:0 0 0 8px #ffffff12,0 18px 65px #0007;animation:intro-logo-in 1.25s cubic-bezier(.16,1,.3,1) both}
 .intro-kicker{margin:30px 0 8px;color:#f4d978;font-size:11px;font-weight:800;letter-spacing:4px;text-transform:uppercase;animation:intro-text-in .8s .35s both}
@@ -190,7 +193,7 @@
 @keyframes intro-logo-in{0%{opacity:0;transform:scale(.35) rotate(-18deg)}70%{opacity:1;transform:scale(1.06) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
 @keyframes intro-text-in{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes intro-orbit{to{transform:rotate(360deg) scale(1.04)}}
-@media(prefers-reduced-motion:reduce){.intro-flag{display:none!important}#ministry-intro::before,#ministry-intro::after,.intro-inner,.intro-logo,.intro-kicker,.intro-title,.intro-message,.intro-enter,.intro-skip{animation:none!important}#ministry-intro{transition:none}}
+@media(prefers-reduced-motion:reduce){.intro-flag{animation:none!important;opacity:1!important}#ministry-intro::before,#ministry-intro::after,.intro-inner,.intro-logo,.intro-kicker,.intro-title,.intro-message,.intro-enter,.intro-skip{animation:none!important}#ministry-intro{transition:none}}
 
 
 /* Professional polish: accessible navigation, refined spacing and responsive details */
@@ -271,18 +274,18 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 <a class="skip-link" href="#main-content">Skip to main content</a>
 
 <div id="ministry-intro" role="dialog" aria-modal="true" aria-label="Welcome to The Yet Africa Salvation For All">
-  <div class="intro-flags" aria-hidden="true">
-    <span class="intro-flag" style="--x:4%;--duration:11s;--delay:-2s;--drift:24px">🇺🇬</span>
-    <span class="intro-flag" style="--x:12%;--duration:14s;--delay:-8s;--drift:-18px">🇰🇪</span>
-    <span class="intro-flag" style="--x:21%;--duration:12s;--delay:-5s;--drift:30px">🇹🇿</span>
-    <span class="intro-flag" style="--x:30%;--duration:15s;--delay:-11s;--drift:-24px">🇷🇼</span>
-    <span class="intro-flag" style="--x:39%;--duration:13s;--delay:-3s;--drift:20px">🇳🇬</span>
-    <span class="intro-flag" style="--x:48%;--duration:16s;--delay:-9s;--drift:-28px">🇬🇭</span>
-    <span class="intro-flag" style="--x:57%;--duration:12s;--delay:-6s;--drift:22px">🇿🇦</span>
-    <span class="intro-flag" style="--x:66%;--duration:15s;--delay:-1s;--drift:-20px">🇬🇧</span>
-    <span class="intro-flag" style="--x:75%;--duration:13s;--delay:-10s;--drift:26px">🇺🇸</span>
-    <span class="intro-flag" style="--x:84%;--duration:17s;--delay:-4s;--drift:-22px">🇨🇦</span>
-    <span class="intro-flag" style="--x:93%;--duration:14s;--delay:-7s;--drift:18px">🇫🇷</span>
+  <div class="intro-flags" aria-label="Welcome to visitors from around the world">
+    <span class="intro-flag" style="--delay:.2s"><span class="flag-icon">🇺🇬</span>Uganda</span>
+    <span class="intro-flag" style="--delay:.7s"><span class="flag-icon">🇰🇪</span>Kenya</span>
+    <span class="intro-flag" style="--delay:1.2s"><span class="flag-icon">🇹🇿</span>Tanzania</span>
+    <span class="intro-flag" style="--delay:1.7s"><span class="flag-icon">🇷🇼</span>Rwanda</span>
+    <span class="intro-flag" style="--delay:2.2s"><span class="flag-icon">🇳🇬</span>Nigeria</span>
+    <span class="intro-flag" style="--delay:2.7s"><span class="flag-icon">🇬🇭</span>Ghana</span>
+    <span class="intro-flag" style="--delay:3.2s"><span class="flag-icon">🇿🇦</span>South Africa</span>
+    <span class="intro-flag" style="--delay:3.7s"><span class="flag-icon">🇬🇧</span>United Kingdom</span>
+    <span class="intro-flag" style="--delay:4.2s"><span class="flag-icon">🇺🇸</span>United States</span>
+    <span class="intro-flag" style="--delay:4.7s"><span class="flag-icon">🇨🇦</span>Canada</span>
+    <span class="intro-flag" style="--delay:5.2s"><span class="flag-icon">🇫🇷</span>France</span>
   </div>
   <div class="intro-inner">
     <section class="intro-scene is-active" data-intro-scene="0" aria-hidden="false">
