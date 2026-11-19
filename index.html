@@ -268,6 +268,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 @keyframes intro-symbol-glow{from{transform:scale(.97);box-shadow:0 0 0 12px #ffffff0b,0 0 28px #e2b93b18}to{transform:scale(1.04);box-shadow:0 0 0 17px #ffffff0b,0 0 58px #e2b93b44}}
 @media(prefers-reduced-motion:reduce){.intro-scene,.intro-symbol{animation:none!important}}
 
+
+/* Multilingual welcome video */
+.welcome-language-label{display:block;margin:18px 0 7px;color:var(--forest);font-weight:800}
+.welcome-language{min-width:min(100%,260px);padding:12px 42px 12px 14px;border:1px solid #ccd6e5;border-radius:6px;background:#fff;color:var(--forest);font:inherit}
+.welcome-video-frame{position:relative;width:min(900px,100%);margin:30px auto 0;aspect-ratio:16/9;background:#091a3a;border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+.welcome-video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.welcome-video-note{max-width:850px;margin:14px auto 0;text-align:center;color:var(--muted);font-size:13px}
+@media(max-width:560px){.welcome-video-frame{border-radius:6px}}
+
 </style>
 </head>
 <body>
@@ -328,6 +337,25 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 </div></header>
 <main id="main-content">
 <section class="hero" id="home"><div class="wrap"><div class="eyebrow">A ministry of faith and action</div><h1>Taking the hope of <span>Jesus Christ</span> to every community.</h1><p>The Yet Africa Salvation For All is a Christian evangelism ministry spreading the Gospel, empowering churches, and raising young evangelists to reach communities across Africa.</p><div class="actions"><a class="btn primary" href="#get-started">Get Started</a><a class="btn outline" href="#contact">Connect with us</a></div></div></section>
+
+
+<section class="section" id="welcome-video">
+  <div class="wrap">
+    <div class="center">
+      <div class="kicker">A warm welcome · Karibu · Tukusanyukidde</div>
+      <h2 id="welcome-heading">Welcome to The Yet Africa Salvation For All</h2>
+      <p class="lead" id="welcome-message">You are loved, valued, and welcome as we share the hope of Jesus Christ.</p>
+      <label for="welcome-language" class="welcome-language-label">Choose your language / Select your language</label>
+      <select id="welcome-language" class="welcome-language" onchange="updateWelcomeLanguage(this.value)" aria-label="Choose the welcome message language">
+        <option value="en">English</option><option value="lg">Luganda</option><option value="sw">Kiswahili</option><option value="rw">Kinyarwanda</option><option value="fr">Français</option><option value="es">Español</option><option value="pt">Português</option><option value="ar">العربية</option><option value="zh">中文</option><option value="hi">हिन्दी</option><option value="am">አማርኛ</option><option value="yo">Yorùbá</option><option value="ha">Hausa</option><option value="zu">isiZulu</option>
+      </select>
+    </div>
+    <div class="welcome-video-frame">
+      <iframe src="https://www.youtube-nocookie.com/embed/J-lXFELzsIA?rel=0&modestbranding=1&cc_load_policy=1" title="Welcome to church video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <p class="welcome-video-note">The welcome message above changes to your selected language. The embedded video is an English-language church welcome; captions depend on the video provider's available subtitle tracks.</p>
+  </div>
+</section>
 
 <section class="section soft" id="impact-centre">
   <div class="wrap two">
@@ -530,6 +558,33 @@ loadMinistryCollection('updates','cms-updates','news and updates');loadMinistryC
   });
   showScene(0);
 })();
+</script>
+
+
+<script>
+function updateWelcomeLanguage(language){
+  var messages={
+    en:{heading:"Welcome to The Yet Africa Salvation For All",message:"You are loved, valued, and welcome as we share the hope of Jesus Christ."},
+    lg:{heading:"Tukwanirizizza mu The Yet Africa Salvation For All",message:"Oyagalibwa, wa muwendo, era tukwanirizza nga tugabana essuubi lya Yesu Kristo."},
+    sw:{heading:"Karibu The Yet Africa Salvation For All",message:"Unapendwa, una thamani, na unakaribishwa tunaposhiriki tumaini la Yesu Kristo."},
+    rw:{heading:"Murakaza neza muri The Yet Africa Salvation For All",message:"Urakunzwe, ufite agaciro, kandi ur welcome mu gihe dusangira ibyiringiro bya Yesu Kristo."},
+    fr:{heading:"Bienvenue à The Yet Africa Salvation For All",message:"Vous êtes aimé, vous avez de la valeur et vous êtes le bienvenu alors que nous partageons l’espérance de Jésus-Christ."},
+    es:{heading:"Bienvenidos a The Yet Africa Salvation For All",message:"Eres amado, tienes valor y eres bienvenido mientras compartimos la esperanza de Jesucristo."},
+    pt:{heading:"Bem-vindo à The Yet Africa Salvation For All",message:"Você é amado, tem valor e é bem-vindo enquanto compartilhamos a esperança de Jesus Cristo."},
+    ar:{heading:"مرحبًا بكم في The Yet Africa Salvation For All",message:"أنتم محبوبون وذوو قيمة ومرحب بكم ونحن نشارك رجاء يسوع المسيح."},
+    zh:{heading:"欢迎来到 The Yet Africa Salvation For All",message:"你是被爱的、宝贵的。欢迎你与我们一同分享耶稣基督带来的盼望。"},
+    hi:{heading:"The Yet Africa Salvation For All में आपका स्वागत है",message:"आप प्रिय हैं, अनमोल हैं और यीशु मसीह की आशा साझा करने में आपका स्वागत है।"},
+    am:{heading:"ወደ The Yet Africa Salvation For All እንኳን በደህና መጡ",message:"ተወዳጅ እና ውድ ናችሁ፤ የኢየሱስ ክርስቶስን ተስፋ ስንካፈል እንቀበላችኋለን።"},
+    yo:{heading:"Ẹ káàbọ̀ sí The Yet Africa Salvation For All",message:"A nífẹ̀ẹ́ yín, ẹ ṣe pàtàkì, ẹ sì káàbọ̀ bí a ṣe ń pín ìrètí Jésù Kristi."},
+    ha:{heading:"Barka da zuwa The Yet Africa Salvation For All",message:"Ana ƙaunarku, kuna da daraja, kuma muna maraba da ku yayin da muke raba begen Yesu Almasihu."},
+    zu:{heading:"Siyakwamukela ku-The Yet Africa Salvation For All",message:"Uyathandwa, ubalulekile futhi wamukelekile njengoba sabelana ngethemba likaJesu Kristu."}
+  };
+  var selected=messages[language]||messages.en;
+  document.getElementById("welcome-heading").textContent=selected.heading;
+  document.getElementById("welcome-message").textContent=selected.message;
+  document.getElementById("welcome-heading").setAttribute("lang",language);
+  document.getElementById("welcome-message").setAttribute("lang",language);
+}
 </script>
 
 </body></html>
