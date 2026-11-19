@@ -8,8 +8,14 @@
   <link rel="canonical" href="https://theyetsalvationforall-max.github.io/theyetafrica/sitemap.html">
   <style>
     :root{--navy:#091a3a;--green:#176b45;--lime:#c6e36a;--ink:#243047;--muted:#64748b;--paper:#f5f8f6}
-    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 Arial, sans-serif}
-    header{background:var(--navy);color:white;padding:42px 20px}header .wrap,main,.bottom{max-width:1000px;margin:auto}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 Arial,sans-serif;position:relative;isolation:isolate}
+    body::before{content:"THE YET AFRICA SALVATION FOR ALL";position:fixed;z-index:-1;pointer-events:none;top:50%;left:50%;width:max-content;max-width:95vw;transform:translate(-50%,-50%) rotate(-24deg);color:rgba(9,26,58,.055);font:900 clamp(30px,7vw,82px)/1.2 Georgia,serif;letter-spacing:.12em;text-align:center;white-space:normal;animation:watermarkFloat 12s ease-in-out infinite alternate}
+    @keyframes watermarkFloat{0%{transform:translate(-53%,-48%) rotate(-24deg) scale(.96);opacity:.48}50%{opacity:.85}100%{transform:translate(-47%,-52%) rotate(-20deg) scale(1.04);opacity:.58}}
+    header{position:relative;z-index:0;background:var(--navy);color:white;padding:42px 20px}header .wrap,main,.bottom{max-width:1000px;margin:auto}
+    main{position:relative;z-index:0}
+    section{background:rgba(255,255,255,.94);backdrop-filter:blur(1.5px)}
+    @media(prefers-reduced-motion:reduce){body::before{animation:none}}
     header a{color:var(--lime);text-decoration:none;font-weight:bold}h1{font:700 clamp(30px,5vw,46px)/1.15 Georgia,serif;margin:18px 0 10px}
     header p{max-width:680px;margin:0;color:#e1e9f8}.crumb{font-size:14px}
     main{padding:34px 20px 54px}.intro{margin:0 0 24px;color:var(--muted)}
